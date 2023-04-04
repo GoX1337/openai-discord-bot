@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const chatgpt = require('../../chatgpt');
 
 module.exports = {
 
@@ -9,12 +10,12 @@ module.exports = {
 
 	async execute(interaction) {
 		const question = interaction.options.getString('question');
-
-		if (question.length > 20) {
-			return interaction.reply({ content: 'Question maximum size is 20 characters', ephemeral: true });
+		if (question.length > 100) {
+			return interaction.reply({ content: 'Question maximum size is 100 characters', ephemeral: true });
 		}
-	
 
-		return interaction.reply({ content: `Your question was ${question}`, ephemeral: false });
+		const response = await chatgpt.ask(question);
+		
+		return interaction.reply({ content: response.content, ephemeral: false });
 	},
 };
