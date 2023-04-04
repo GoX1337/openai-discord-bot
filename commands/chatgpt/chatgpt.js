@@ -10,12 +10,17 @@ module.exports = {
 
 	async execute(interaction) {
 		const question = interaction.options.getString('question');
+		if (!question) {
+			return interaction.reply({ content: 'You must send a question', ephemeral: true });
+		}
 		if (question.length > 100) {
 			return interaction.reply({ content: 'Question maximum size is 100 characters', ephemeral: true });
 		}
 
+		await interaction.deferReply();
 		const response = await chatgpt.ask(question);
-		
-		return interaction.reply({ content: response.content, ephemeral: false });
+		console.log(response);
+		await interaction.editReply({ content: response.content, ephemeral: false });
+		return;
 	},
 };
