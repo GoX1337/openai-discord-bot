@@ -19,7 +19,6 @@ module.exports = {
 
 		await interaction.deferReply();
 		const response = await chatgpt.ask(question);
-		console.log(response);
 		await interaction.editReply({ content: response.content, ephemeral: false });
 		return;
 	},
